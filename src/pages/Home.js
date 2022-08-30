@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity
+  FlatList
 } from 'react-native';
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
@@ -18,6 +18,10 @@ export function Home() {
   function handleAddSkill() {
     setMySkills([...mySkills, newSkill]);
   }
+
+  useEffect(() => {
+    console.log("useEffect executado!")
+  }, [mySkills]);
   
   return(
     <View style={styles.container}>
@@ -36,12 +40,13 @@ export function Home() {
       <Text style={[styles.title, {marginTop: 40}]}>
         My Skills
       </Text>
-
-      {
-        mySkills.map(skill => (
-          <SkillCard skill={skill} key={skill}/>
-        ))
-      }
+      <FlatList
+        data={mySkills}
+        keyExtractor={item => item}
+        renderItem={({ item }) => (
+          <SkillCard skill={item}/>
+        )}
+      />
 
     </View>
   )
